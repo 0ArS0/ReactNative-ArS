@@ -15,7 +15,7 @@ O projeto consiste em um clone do aplicativo CrunchyRoll, no qual a tela de cada
 
 <strong>Instruçoes:</strong>
 Após preencher os campos na tela de cadastro e clicar no botão "Criar Conta" (TouchableOpacity) o usuário será direcionado para a segunda rota, aonde o seu apelido poderá ser inserido
-
+#
 | Print da tela a ser clonada            | Print do clone                        |
 | -------------------------------------- | ------------------------------------ |
 | ![Print da tela a ser clonada](./assets/Tela%20Clonada.jpeg) | ![Print do clone](./assets/Clone.jpeg) |
