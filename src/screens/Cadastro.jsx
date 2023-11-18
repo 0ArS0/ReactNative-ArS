@@ -1,49 +1,85 @@
-import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native'
+import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text, Alert, KeyboardAvoidingView } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { styles } from './CadastroCss'
 
 export default function Cadastro() {
+
+    const navigation = useNavigation()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [isChecked, setChecked] = useState(false);
+    const [isEmailFocused, setIsEmailFocused] = useState(false);
+    const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
     const toggleCheckbox = () => {
         setChecked(!isChecked);
     };
 
+    const handleEmailFocus = () => {
+        setIsEmailFocused(true);
+    };
+
+    const handlePasswordFocus = () => {
+        setIsPasswordFocused(true);
+    };
+
+    const handleBlur = () => {
+        setIsEmailFocused(false);
+        setIsPasswordFocused(false);
+    };
+
+    const handleCadastro = () => {
+        if (email && password) {
+            Alert.alert('Cadastro realizado com sucesso!');
+            navigation.navigate('EmBreve')
+        } else {
+            Alert.alert('Preencha os campos!');
+        }
+    };
 
     return (
         <>
             <SafeAreaView style={styles.background}>
 
-                <View style={styles.header}>
-                    <TouchableOpacity>
-                        <AntDesign name="close" size={24} color="#fff" />
-                    </TouchableOpacity>
-                    <Text style={styles.criar}>Criar Conta</Text>
-                    <Text>       </Text>
-                </View>
-
-                <View style={styles.containerLogo}>
+                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100} style={styles.containerLogo}>
                     <Image style={styles.imgLogo} source={require('../../assets/logo.png')} />
-                </View>
+                </KeyboardAvoidingView>
 
-                <View style={styles.container}>
+                <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100} style={styles.container}>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input,
+                        {
+                            borderBottomColor: isEmailFocused ? '#f67828' : '#5a5b5d',
+                            backgroundColor: isEmailFocused ? '#24252a' : '#141519',
+                        },]}
                         placeholder='E-mail'
                         placeholderTextColor='#dedfe0'
                         autoCorret={false}
-                        onChange={(e) => { }}
+                        onFocus={handleEmailFocus}
+                        onBlur={handleBlur}
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
                     />
+
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input,
+                        {
+                            borderBottomColor: isPasswordFocused ? '#f67828' : '#5a5b5d',
+                            backgroundColor: isPasswordFocused ? '#24252a' : '#141519',
+                        },]}
                         placeholder='Senha'
                         placeholderTextColor='#dedfe0'
                         autoCorret={false}
-                        onChange={(e) => { }}
+                        onFocus={handlePasswordFocus}
+                        onBlur={handleBlur}
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
                     />
-                    
+
                     <View style={styles.checkbox}>
                         <TouchableOpacity style={styles.checkboxContainer} onPress={toggleCheckbox}>
                             {isChecked ? (
@@ -54,110 +90,39 @@ export default function Cadastro() {
                             <Text style={styles.textoCheckbox}>Quero ser informado de todas as novidades e ofertas da Crunchyroll.</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.containerTextoCadastro}>
+                        <Text style={styles.textoCadastro}>
+                            Ao criar uma conta, você declara possuir mais de 16 anos e estar de acordo com nossos
+                            <Text style={styles.textoEspecial}> Termos e Condições</Text> &
+                            <Text style={styles.textoEspecial}> Política de Privacidade.</Text>
+                        </Text>
+                    </View>
 
-                    <Text style={styles.textoCadastro}>Ao criar uma conta, você declara possuir mais de 16 anos e estar de acordo com nossos <Text style={styles.textoEspecial}>Termos e Condições</Text> & <Text style={styles.textoEspecial}>Política de Privacidade.</Text></Text>
-
-                    <TouchableOpacity style={styles.btnCriarConta}>
+                    <TouchableOpacity
+                        style={[
+                            styles.btnCriarConta,
+                            {
+                                backgroundColor: (email !== '' && password !== '') ? '#f67828' : '#000',
+                                borderColor: (email !== '' && password !== '') ? '#f67828' : '#5a5b5d',
+                            },
+                            styles.textoCriarConta,
+                            {
+                                color: (email !== '' && password !== '') ? "#000" : '#5a5a5a',
+                            }
+                        ]}
+                        onPress={handleCadastro}
+                        >
                         <Text style={styles.textoCriarConta}>CRIAR CONTA</Text>
                     </TouchableOpacity>
 
                     <View style={styles.extra}>
-                        <TouchableOpacity style={styles.btnExtra}>
-                            <Text style={styles.texto}>Já possui uma conta? <Text style={styles.textoEspecial}>Login</Text></Text>
+                        <TouchableOpacity style={styles.btnExtra} onPress={() => { navigation.navigate('EmBreve') }}>
+                            <Text style={styles.texto}>Já possui uma conta? <Text style={styles.textoEspecial}> Login</Text></Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </KeyboardAvoidingView>
+
             </SafeAreaView>
         </>
     )
 }
-
-const styles = StyleSheet.create({
-    header: {
-        flex: 0.12,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%'
-    },
-    criar: {
-        color: '#fff',
-        fontSize: 20,
-    },
-    background: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000'
-    },
-    containerLogo: {
-        flex: 0.4,
-        justifyContent: 'flex-end',
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        padding: 20,
-    },
-    checkboxContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    textoCheckbox: {
-        marginLeft: 8,
-        fontSize: 12,
-        color: '#fff'
-    },
-    textoCadastro: {
-        color: "#fff",
-        textAlign: 'center',
-        fontSize: 11,
-    },
-    textoEspecial: {
-        color: '#f67828'
-    },
-    input: {
-        width: '100%',
-        paddingTop: 25,
-        paddingBottom: 10,
-        paddingHorizontal: 15,
-        marginBottom: 20,
-        backgroundColor: '#141519',
-        color: '#FFF',
-        borderBottomColor: '#5a5b5d',
-        borderBottomWidth: 3,
-        fontSize: 16
-    },
-    btnCriarConta: {
-        backgroundColor: '#000',
-        borderWidth: 2,
-        borderColor: '#5a5a5a',
-        width: '100%',
-        height: 35,
-        marginTop: 30,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    textoCriarConta: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#5a5a5a'
-    },
-    extra: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 30,
-    },
-    btnExtra: {
-        marginTop: 10,
-    },
-    texto: {
-        color: '#fff'
-    },
-
-}) 
