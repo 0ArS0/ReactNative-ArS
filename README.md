@@ -21,7 +21,7 @@ Após preencher os campos na tela de cadastro e clicar no botão "Criar Conta" (
 <img src="./assets/Tela Clonada.jpeg" width="360" height="800">
 
 ## Print do clone
-<img  src="./assets/Clone.jpeg">
+<img  src="./assets/Clone.jpeg" width="360" height="800">
 
 
 
