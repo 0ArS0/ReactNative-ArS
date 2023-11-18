@@ -3,13 +3,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import Cadastro from '../screens/Cadastro'
 import EmBreve from '../screens/EmBreve'
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import Idk from '../screens/Apelido'
+import Apelido from '../screens/Apelido'
 
 const { Navigator, Screen } = createNativeStackNavigator()
 
 export default function Routes() {
     return (
         <NavigationContainer>
+
             <Navigator
                 initialRouteName='Cadastro'
                 screenOptions={{ headerStyle: { backgroundColor: '#000' } }}>
@@ -44,6 +47,15 @@ export default function Routes() {
                             />
                         ),
                     })}
+                />
+                <Screen
+                    name='Apelido'
+                    component={Apelido}
+                    options={{
+                        title: '',
+                        headerTintColor: '#fff',
+        
+                    }}
                 />
             </Navigator>
         </NavigationContainer>

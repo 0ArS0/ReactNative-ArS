@@ -3,11 +3,14 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function EmBreve({}) {
+export default function EmBreve({ }) {
     const navigation = useNavigation()
-    
+
     const cadastro = () => {
         navigation.navigate('Cadastro');
+    }
+    const segundaRota = () => {
+        navigation.navigate('Apelido');
     }
     return (
         <>
@@ -15,6 +18,9 @@ export default function EmBreve({}) {
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.voltarContainer} onPress={cadastro}>
                         <Text style={styles.texto}>Cadastro (Clone)</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.voltarContainer} onPress={segundaRota}>
+                        <Text style={styles.texto}>Segunda Rota</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -36,8 +42,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
     },
-    texto: { 
-        color: '#f67828', 
+    texto: {
+        color: '#f67828',
         fontSize: 30,
         marginBottom: 20
     }

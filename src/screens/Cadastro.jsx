@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { styles } from './CadastroCss'
+import { styles } from './StyleCadastro'
 
 export default function Cadastro() {
 
@@ -33,8 +33,8 @@ export default function Cadastro() {
 
     const handleCadastro = () => {
         if (email && password) {
-            Alert.alert('Cadastro realizado com sucesso!');
-            navigation.navigate('EmBreve')
+            // Alert.alert('Cadastro realizado com sucesso!');
+            navigation.navigate('Apelido')
         } else {
             Alert.alert('Preencha os campos!');
         }
@@ -111,7 +111,7 @@ export default function Cadastro() {
                             }
                         ]}
                         onPress={handleCadastro}
-                        >
+                    >
                         <Text style={styles.textoCriarConta}>CRIAR CONTA</Text>
                     </TouchableOpacity>
 
