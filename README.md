@@ -7,21 +7,19 @@
     Repositório Individual Da Disciplina React-Native (Serratec).
 </div>
 
-<div align="center">
+
+# Projeto Clone CrunchyRoll
+
 O projeto consiste em um clone do aplicativo CrunchyRoll, no qual a tela de cadastro foi replicada. Além disso, foi implementada uma segunda rota personalizada, na qual há um campo para que o usuário possa colocar o seu apelido que é composto por um TextInput que está vinculado a um state e a um botão (TouchableOpacity). 
 
 
-Instruçoes:
+<strong>Instruçoes:</strong>
 Após preencher os campos na tela de cadastro e clicar no botão "Criar Conta" (TouchableOpacity) o usuário será direcionado para a segunda rota, aonde o seu apelido poderá ser inserido
-</div>
+#
+| Print da tela a ser clonada            | Print do clone                        |
+| -------------------------------------- | ------------------------------------ |
+| ![Print da tela a ser clonada](./assets/Tela%20Clonada.jpeg) | ![Print do clone](./assets/Clone.jpeg) |
 
-Print da tela clonada
-<div align="center">
- <img  src="./assets/Tela Clonada.jpeg">
-</div>
 
-Print do clone
-<div align="center">
 
-  <img  src="./assets/Clone.jpeg">
-</div>
+
