@@ -1,13 +1,16 @@
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Apelido() {
+export default function Apelido({ route }) {
 
     const navigation = useNavigation()
     const [isConfirmarFocused, setIsConfirmarFocused] = useState(false);
     const [apelido, setApelido] = useState('');
+
+    const email = route.params?.email || 'Nenhum Email Cadastro';
 
     const handleConfirmarFocus = () => {
         setIsConfirmarFocused(true);
@@ -17,12 +20,36 @@ export default function Apelido() {
         setIsConfirmarFocused(false);
     };
 
-    const handleApelido = () => {
-        if (apelido) {
-            Alert.alert('Bom ter você conosco, ' + apelido);
-            navigation.navigate('EmBreve')
+    useEffect(() => {
+        loadApelido();
+    }, []);
+
+    const handleApelido = async () => {
+        if (apelido && email) {
+            try {
+                // Salva o apelido e o e-mail no AsyncStorage
+                await AsyncStorage.setItem('apelido', apelido);
+                await AsyncStorage.setItem('email', email);
+
+                Alert.alert('Bom ter você conosco, ' + apelido);
+                navigation.navigate('EmBreve', { apelido, email });
+            } catch (error) {
+                console.error('Erro ao salvar apelido e e-mail:', error);
+            }
         } else {
-            Alert.alert('Preencha o campo!');
+            Alert.alert('Preencha o campo de apelido e insira um e-mail válido!');
+        }
+    };
+
+
+    const loadApelido = async () => {
+        try {
+            const savedApelido = await AsyncStorage.getItem('apelido');
+            if (savedApelido) {
+                setApelido(savedApelido);
+            }
+        } catch (error) {
+            console.error('Erro ao carregar apelido:', error);
         }
     };
 
@@ -31,7 +58,7 @@ export default function Apelido() {
 
             <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={200} style={styles.container}>
 
-                <View >
+                <View>
                     <Text style={styles.textoEspecial}>Seja Bem-Vindo (a)!</Text>
                     <Text style={styles.texto}>Por favor digite a baixo como gostaria de ser chamado(a) pela comunidade:</Text>
                 </View>

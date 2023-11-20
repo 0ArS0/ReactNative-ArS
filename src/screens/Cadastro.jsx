@@ -13,6 +13,8 @@ export default function Cadastro() {
     const [isChecked, setChecked] = useState(false);
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+    const [emailEhValido, setEmailEhValido] = useState(true);
+    const [passwordEhValido, setPasswordEhValido] = useState(true);
 
     const toggleCheckbox = () => {
         setChecked(!isChecked);
@@ -32,12 +34,29 @@ export default function Cadastro() {
     };
 
     const handleCadastro = () => {
-        if (email && password) {
+        if (!emailEhValido) {
+            Alert.alert('Erro', 'Por favor, insira um e-mail válido.');
+        } else if (!passwordEhValido) {
+            Alert.alert('Erro', 'A senha deve ter pelo menos 8 caracteres.');
+        } else if (email && password) {
             // Alert.alert('Cadastro realizado com sucesso!');
-            navigation.navigate('Apelido')
-        } else {
-            Alert.alert('Preencha os campos!');
+            navigation.navigate('Apelido', { email })
         }
+        else {
+            Alert.alert('Preencha os campos');
+        }
+    };
+
+    const validatePassword = (text) => {
+        const isValid = text.length >= 8;
+        setPasswordEhValido(isValid);
+        setPassword(text);
+    };
+
+    const validateEmail = (text) => {
+        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text);
+        setEmailEhValido(isValid);
+        setEmail(text);
     };
 
     return (
@@ -49,19 +68,18 @@ export default function Cadastro() {
                 </KeyboardAvoidingView>
 
                 <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={100} style={styles.container}>
-                    <TextInput
-                        style={[styles.input,
-                        {
-                            borderBottomColor: isEmailFocused ? '#f67828' : '#5a5b5d',
-                            backgroundColor: isEmailFocused ? '#24252a' : '#141519',
-                        },]}
+                    <TextInput style={[styles.input,
+                    {
+                        borderBottomColor: isEmailFocused ? '#f67828' : '#5a5b5d',
+                        backgroundColor: isEmailFocused ? '#24252a' : '#141519',
+                    },]}
                         placeholder='E-mail'
                         placeholderTextColor='#dedfe0'
                         autoCorret={false}
                         onFocus={handleEmailFocus}
                         onBlur={handleBlur}
                         value={email}
-                        onChangeText={(text) => setEmail(text)}
+                        onChangeText={(text) => validateEmail(text)}
                     />
 
                     <TextInput
@@ -77,7 +95,7 @@ export default function Cadastro() {
                         onBlur={handleBlur}
                         secureTextEntry={true}
                         value={password}
-                        onChangeText={(text) => setPassword(text)}
+                        onChangeText={(text) => validatePassword(text)}
                     />
 
                     <View style={styles.checkbox}>
